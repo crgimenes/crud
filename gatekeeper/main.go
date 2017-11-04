@@ -31,15 +31,32 @@ func token(userID int, customerID int) string {
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
+
+	err := r.ParseForm()
+	if err != nil {
+		http.Error(w, "form error", http.StatusInternalServerError)
+		return
+	}
+
+	user := r.FormValue("user")
+	password := r.FormValue("password")
+
+	// dummy authentication
+	if password != "1234" || user != "gocrud@example.com" {
+		http.Error(w, "user not found", http.StatusForbidden)
+		return
+	}
 	userID := 1
 	customerID := 1
+
 	jwtToken := token(userID, customerID)
 	resp := Response{
 		Token: jwtToken,
 	}
-	err := json.NewEncoder(w).Encode(resp)
+	err = json.NewEncoder(w).Encode(resp)
 	if err != nil {
 		http.Error(w, "autentication error", http.StatusInternalServerError)
+		return
 	}
 }
 
