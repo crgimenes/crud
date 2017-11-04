@@ -118,8 +118,9 @@ func handlerEditClient(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusForbidden)
 		return
 	}
-	clientID := r.URL.Query().Get("id")
-	listURL := fmt.Sprintf("http://localhost:2015/api/gocrud/public/client?id=%s", clientID)
+	clientID := r.FormValue("id")
+
+	listURL := fmt.Sprintf("http://localhost:2015/api/gocrud/public/client?id=$eq.%s", clientID)
 	if r.Method == http.MethodPost {
 		err = r.ParseForm()
 		if err != nil {
@@ -137,8 +138,8 @@ func handlerEditClient(w http.ResponseWriter, r *http.Request) {
 		var resp *http.Response
 		resp, err = httpClientHelper(
 			token.Value,
-			http.MethodPost,
-			"http://localhost:2015/api/gocrud/public/client",
+			http.MethodPatch,
+			listURL,
 			bytes.NewReader(b))
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -149,7 +150,7 @@ func handlerEditClient(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		fmt.Println("Insert Client:", string(b))
+		fmt.Println("Update Client:", string(b))
 		http.Redirect(w, r, "/clients", http.StatusTemporaryRedirect)
 		return
 	}
