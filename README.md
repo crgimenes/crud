@@ -49,6 +49,7 @@ export PREST_PG_DATABASE=gocrud
 export PREST_PG_PORT=5432
 export PREST_JWT_KEY="your jwt key here"
 export PREST_MIGRATIONS=./postgresql
+export PREST_QUERIES_LOCATION=./queries
 prest migrate up
 ```
 

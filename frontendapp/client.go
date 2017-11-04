@@ -201,6 +201,36 @@ func handlerEditClient(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func handlerDeleteClient(w http.ResponseWriter, r *http.Request) {
+	token, err := r.Cookie("token")
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusForbidden)
+		return
+	}
+	clientID := r.URL.Query().Get("id")
+	deleteURL := fmt.Sprintf("http://localhost:2015/api/gocrud/public/client_contacts?client_id=%s", clientID)
+	_, err = httpClientHelper(
+		token.Value,
+		http.MethodDelete,
+		deleteURL,
+		nil)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	deleteURL = fmt.Sprintf("http://localhost:2015/api/gocrud/public/client?id=%s", clientID)
+	_, err = httpClientHelper(
+		token.Value,
+		http.MethodDelete,
+		deleteURL,
+		nil)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	http.Redirect(w, r, "/clients", http.StatusTemporaryRedirect)
+}
+
 func httpClientHelper(token, method, url string, body io.Reader) (resp *http.Response, err error) {
 	req, err := http.NewRequest(method, url, body)
 	if err != nil {
