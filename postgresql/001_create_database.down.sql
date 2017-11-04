@@ -1,1 +1,1 @@
-DROP DATABASE gocrud;
+-- DROP DATABASE gocrud;

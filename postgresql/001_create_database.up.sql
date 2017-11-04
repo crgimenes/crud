@@ -1,6 +1,7 @@
-CREATE DATABASE gocrud
-    WITH 
-    OWNER = postgres
-    ENCODING = 'UTF8'
-    CONNECTION LIMIT = -1;
+-- pREST cannot create database
+-- CREATE DATABASE gocrud
+--     WITH 
+--     OWNER = postgres
+--     ENCODING = 'UTF8'
+--     CONNECTION LIMIT = -1;
     
