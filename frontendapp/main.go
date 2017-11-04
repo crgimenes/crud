@@ -164,6 +164,7 @@ func main() {
 	http.HandleFunc("/login", login)
 	http.HandleFunc("/logout", logout)
 	http.HandleFunc("/clients", handlerListClient)
+	http.HandleFunc("/clients/add", handlerAddClient)
 
 	err := http.ListenAndServe(":5000", nil)
 	if err != nil {
