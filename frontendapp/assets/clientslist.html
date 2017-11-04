@@ -16,7 +16,7 @@
             {{range .clients}}
                 <tr>
                     <td>{{.ID}}</td>
-                    <td>{{.Name}}</td>
+                    <td><a href="/clients/edit?id={{.ID}}">{{.Name}}</a></td>
                 </tr>
             {{end}}
         </tbody>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{.title}}</title>
+</head>
+<body>
+    <form action="/clients/edit" method="post">
+        <input type="hidden" name="id" value="{{.client.ID}}">
+        <label for="name">Name</label>
+        <input type="text" name="name" value="{{.client.Name}}">
+        <button type="submit">Send</button>
+    </form>
+    <table>
+            <thead>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Email</th>
+            </thead>
+            <tbody>
+                {{range .contacts}}
+                    <tr>
+                        <td>{{.ID}}</td>
+                        <td><a href="/contacts/edit?id={{.ID}}">{{.Name}}</a></td>
+                        <td>{{.Phone}}</td>
+                        <td>{{.Email}}</td>
+                    </tr>
+                {{end}}
+            </tbody>
+        </table>
+        <a href="/contacts/add?client_id={{.client.ID}}">Add Contact</a>
+</body>
+</html>
