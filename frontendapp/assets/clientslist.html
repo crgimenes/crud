@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{.title}}</title>
+</head>
+<body>
+    <table>
+        <thead>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Actions</th>
+        </thead>
+        <tbody>
+            {{range .clients}}
+                <tr>
+                    <td>{{.ID}}</td>
+                    <td><a href="/clients/edit?id={{.ID}}">{{.Name}}</a></td>
+                    <td><a href="/clients/delete?id={{.ID}}">Delete</a></td>
+                </tr>
+            {{end}}
+        </tbody>
+    </table>
+    <a href="/clients/add">Add client</a>
+</body>
+</html>
