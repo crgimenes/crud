@@ -62,7 +62,7 @@ prest
 # Start Gatekeeper
 
 ```
-gatekeeper
+./gatekeeper
 ```
 
 ## Teste Gatekeeper
@@ -84,7 +84,9 @@ You must see your databases now.
 
 # Start frontend app
 
-
+```
+./fontendapp
+```
 
 # Start Caddy
 
