@@ -6,6 +6,7 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"time"
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
@@ -15,15 +16,18 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	logged := false
 	msg := "please login"
 	userDataCookie, _ := r.Cookie("name")
 	if userDataCookie != nil {
-		msg = fmt.Sprintf("loged as %v", userDataCookie.Value)
+		logged = true
+		msg = fmt.Sprintf("logged as %v", userDataCookie.Value)
 	}
 
-	tplMap := map[string]string{
+	tplMap := map[string]interface{}{
 		"title":   "GOCRUD - Welcome",
 		"message": msg,
+		"logged":  logged,
 	}
 
 	err = tpl.Execute(w, tplMap)
@@ -35,7 +39,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 func login(w http.ResponseWriter, r *http.Request) {
 
-	tplMap := map[string]string{
+	tplMap := map[string]interface{}{
 		"title":   "GOCRUD - Login",
 		"message": "",
 	}
@@ -51,7 +55,7 @@ func login(w http.ResponseWriter, r *http.Request) {
 		user := r.FormValue("user")
 		password := r.FormValue("password")
 
-		req, err := http.NewRequest(http.MethodPost, "http://localhost:4000", nil)
+		req, err := http.NewRequest(http.MethodPost, "http://localhost:2015/gatekeeper", nil)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
@@ -94,13 +98,15 @@ func login(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("token", gatekeeperRet.Token)
 
 		authCookie := http.Cookie{
-			Name:  "token",
-			Value: gatekeeperRet.Token,
+			Name:    "token",
+			Value:   gatekeeperRet.Token,
+			Expires: time.Now().Add(time.Duration(1) * time.Hour),
 		}
 
 		userDataCookie := http.Cookie{
-			Name:  "name",
-			Value: user,
+			Name:    "name",
+			Value:   user,
+			Expires: time.Now().Add(time.Duration(1) * time.Hour),
 		}
 
 		http.SetCookie(w, &authCookie)
@@ -118,7 +124,27 @@ func login(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func templateHelper(w http.ResponseWriter, tplMap map[string]string, name string, file string) (err error) {
+func logout(w http.ResponseWriter, r *http.Request) {
+	authCookie := http.Cookie{
+		Name:    "token",
+		Value:   "",
+		Expires: time.Now(),
+	}
+
+	userDataCookie := http.Cookie{
+		Name:    "name",
+		Value:   "",
+		Expires: time.Now(),
+	}
+
+	http.SetCookie(w, &authCookie)
+	http.SetCookie(w, &userDataCookie)
+
+	http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
+
+}
+
+func templateHelper(w http.ResponseWriter, tplMap map[string]interface{}, name string, file string) (err error) {
 	tpl, err := template.New(name).ParseFiles(file)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -136,6 +162,8 @@ func main() {
 
 	http.HandleFunc("/", handler)
 	http.HandleFunc("/login", login)
+	http.HandleFunc("/logout", logout)
+	http.HandleFunc("/clients", handlerListClient)
 
 	err := http.ListenAndServe(":5000", nil)
 	if err != nil {

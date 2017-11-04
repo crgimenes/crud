@@ -1,0 +1,23 @@
+0.0.0.0:2015
+gzip
+ext .html
+log stdout
+root ./frontend/assets
+
+#header / {
+#    Access-Control-Allow-Origin *
+#    Access-Control-Allow-Headers "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+#    Access-Control-Allow-Methods "GET,PUT,POST,DELETE,PATCH,OPTIONS"
+#}
+
+proxy  /api localhost:3000 {
+    without /api
+}
+
+proxy  /gatekeeper localhost:4000 {
+    without /gatekeeper
+}
+
+proxy  / localhost:5000 {
+}
+

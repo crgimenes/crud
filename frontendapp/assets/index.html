@@ -7,7 +7,15 @@
     <title>{{.title}}</title>
 </head>
 <body>
+    {{if not .logged}}
     <a href="/login">login</a>
+    {{end}}
+
+    {{if .logged}}
+    <a href="/clients">list clients</a><br>
+    <a href="/logout">logout</a>
+    {{end}}
+        
     <p>{{.message}}</p>    
 </body>
 </html>

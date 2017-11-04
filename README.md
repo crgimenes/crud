@@ -20,6 +20,12 @@ Simple master detail web form with Golang
 go get github.com/prest/prest
 ```
 
+## Caddy
+
+```
+go get github.com/mholt/caddy/caddy
+```
+
 # Start Postgresql server
 
 - plataform dependent
