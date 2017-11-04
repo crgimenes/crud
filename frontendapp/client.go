@@ -118,15 +118,15 @@ func handlerEditClient(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusForbidden)
 		return
 	}
+	err = r.ParseForm()
+	if err != nil {
+		http.Error(w, "form error", http.StatusInternalServerError)
+		return
+	}
 	clientID := r.FormValue("id")
 
 	listURL := fmt.Sprintf("http://localhost:2015/api/gocrud/public/client?id=$eq.%s", clientID)
 	if r.Method == http.MethodPost {
-		err = r.ParseForm()
-		if err != nil {
-			http.Error(w, "form error", http.StatusInternalServerError)
-			return
-		}
 		name := r.FormValue("name")
 		client := clientModel{Name: name}
 		var b []byte
