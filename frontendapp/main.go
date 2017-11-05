@@ -168,7 +168,8 @@ func main() {
 	http.HandleFunc("/clients/edit", handlerEditClient)
 	http.HandleFunc("/clients/delete", handlerDeleteClient)
 	http.HandleFunc("/contacts/add", handlerAddContact)
-
+	http.HandleFunc("/contacts/edit", handlerEditContact)
+	
 	err := http.ListenAndServe(":5000", nil)
 	if err != nil {
 		log.Fatalf("ListenAndServe error: %v", err)
