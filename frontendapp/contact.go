@@ -169,3 +169,25 @@ func handlerEditContact(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 }
+
+func handlerDeleteContact(w http.ResponseWriter, r *http.Request) {
+	token, err := r.Cookie("token")
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusForbidden)
+		return
+	}
+	contactID := r.URL.Query().Get("id")
+	clientID := r.URL.Query().Get("client_id")
+	deleteURL := fmt.Sprintf("http://localhost:2015/api/gocrud/public/client_contacts?id=%s", contactID)
+	_, err = httpClientHelper(
+		token.Value,
+		http.MethodDelete,
+		deleteURL,
+		nil)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	clientURL := fmt.Sprintf("/clients/edit?id=%v", clientID)
+	http.Redirect(w, r, clientURL, http.StatusSeeOther)
+}

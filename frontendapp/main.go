@@ -169,6 +169,7 @@ func main() {
 	http.HandleFunc("/clients/delete", handlerDeleteClient)
 	http.HandleFunc("/contacts/add", handlerAddContact)
 	http.HandleFunc("/contacts/edit", handlerEditContact)
+	http.HandleFunc("/contacts/delete", handlerDeleteContact)
 	
 	err := http.ListenAndServe(":5000", nil)
 	if err != nil {
