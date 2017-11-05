@@ -112,7 +112,7 @@ func login(w http.ResponseWriter, r *http.Request) {
 		http.SetCookie(w, &authCookie)
 		http.SetCookie(w, &userDataCookie)
 
-		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
+		http.Redirect(w, r, "/", http.StatusSeeOther)
 
 		return
 	}
@@ -140,7 +140,7 @@ func logout(w http.ResponseWriter, r *http.Request) {
 	http.SetCookie(w, &authCookie)
 	http.SetCookie(w, &userDataCookie)
 
-	http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
+	http.Redirect(w, r, "/", http.StatusSeeOther)
 
 }
 
@@ -167,7 +167,10 @@ func main() {
 	http.HandleFunc("/clients/add", handlerAddClient)
 	http.HandleFunc("/clients/edit", handlerEditClient)
 	http.HandleFunc("/clients/delete", handlerDeleteClient)
-
+	http.HandleFunc("/contacts/add", handlerAddContact)
+	http.HandleFunc("/contacts/edit", handlerEditContact)
+	http.HandleFunc("/contacts/delete", handlerDeleteContact)
+	
 	err := http.ListenAndServe(":5000", nil)
 	if err != nil {
 		log.Fatalf("ListenAndServe error: %v", err)

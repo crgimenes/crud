@@ -9,25 +9,17 @@ import (
 	"net/http"
 )
 
-/*
-
-list
-add
-edit
-delete
-
-*/
-
 type clientModel struct {
 	ID   int    `json:"id,omitempty"`
 	Name string `json:"name,omiempty"`
 }
 
 type contactModel struct {
-	ID    int    `json:"id,omitempty"`
-	Name  string `json:"name,omiempty"`
-	Phone string `json:"fone,omiempty"`
-	Email string `json:"email,omiempty"`
+	ID       int    `json:"id,omitempty"`
+	ClientID int    `json:"client_id,omiempty"`
+	Name     string `json:"name,omiempty"`
+	Phone    string `json:"phone,omiempty"`
+	Email    string `json:"email,omiempty"`
 }
 
 func handlerListClient(w http.ResponseWriter, r *http.Request) {
@@ -96,7 +88,7 @@ func handlerAddClient(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		fmt.Println("Insert Client:", string(b))
-		http.Redirect(w, r, "/clients", http.StatusTemporaryRedirect)
+		http.Redirect(w, r, "/clients", http.StatusSeeOther)
 		return
 	}
 	err := templateHelper(
@@ -151,7 +143,7 @@ func handlerEditClient(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		fmt.Println("Update Client:", string(b))
-		http.Redirect(w, r, "/clients", http.StatusTemporaryRedirect)
+		http.Redirect(w, r, "/clients", http.StatusSeeOther)
 		return
 	}
 	resp, err := httpClientHelper(
@@ -229,7 +221,7 @@ func handlerDeleteClient(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	http.Redirect(w, r, "/clients", http.StatusTemporaryRedirect)
+	http.Redirect(w, r, "/clients", http.StatusSeeOther)
 }
 
 func httpClientHelper(token, method, url string, body io.Reader) (resp *http.Response, err error) {

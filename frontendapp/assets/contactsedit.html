@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{.title}}</title>
+</head>
+<body>
+    <form action="/contacts/edit" method="post">
+        <input type="hidden" name="client_id" value="{{.contact.ClientID}}">
+        <input type="hidden" name="id" value="{{.contact.ID}}">
+        <label for="name">Name</label>
+        <input type="text" name="name" value="{{.contact.Name}}">
+        <label for="phone">Phone</label>
+        <input type="text" name="phone" value="{{.contact.Phone}}">
+        <label for="email">e-mail</label>
+        <input type="email" name="email" value="{{.contact.Email}}">
+        <button type="submit">Send</button>
+    </form>
+</body>
+</html>
