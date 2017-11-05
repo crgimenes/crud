@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{.title}}</title>
+</head>
+<body>
+    <form action="/contacts/add" method="post">
+        <input type="hidden" name="client_id" value="{{.clientID}}">
+        <label for="name">Name</label>
+        <input type="text" name="name">
+        <label for="phone">Phone</label>
+        <input type="text" name="phone">
+        <label for="email">e-mail</label>
+        <input type="email" name="email">
+        <button type="submit">Send</button>
+    </form>
+</body>
+</html>
