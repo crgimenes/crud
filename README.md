@@ -68,7 +68,7 @@ prest
 ## Teste Gatekeeper
 
 ```
-curl localhost:4000 
+curl --user gocrud@example.com:1234 localhost:4000
 ```
 
 Then get the jwt token and put the value on $JWT_TOKEN environment variable, to test pREST.
