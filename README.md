@@ -85,7 +85,7 @@ You must see your databases now.
 # Start frontend app
 
 ```
-./fontendapp
+./frontendapp
 ```
 
 # Start Caddy
