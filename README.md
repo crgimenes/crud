@@ -1,5 +1,5 @@
-# gocrud
-Simple master detail web form with Golang
+# crud
+Simple master detail web crud with Golang and pREST
 
 - Postgresql --> Database
 
